@@ -26,10 +26,14 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
+# Copy .env.example to .env
+RUN cp .env.example .env
+
 # Laravel setup commands
 RUN php artisan key:generate \
  && php artisan migrate --force \
  && php artisan storage:link
+
 
 # Set permissions
 RUN chown -R www-data:www-data storage bootstrap/cache
