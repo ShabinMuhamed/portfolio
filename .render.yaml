@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: laravel-portfolio
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        value: YOUR_APP_KEY   # Replace with a generated key later
+      - key: APP_URL
+        value: https://laravel-portfolio.onrender.com
+      - key: DB_CONNECTION
+        value: mysql          # or pgsql
+      - key: DB_HOST
+        value: your-db-host
+      - key: DB_PORT
+        value: 3306
+      - key: DB_DATABASE
+        value: your-db-name
+      - key: DB_USERNAME
+        value: your-db-user
+      - key: DB_PASSWORD
+        value: your-db-pass
