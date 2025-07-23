@@ -15,19 +15,22 @@ WORKDIR /var/www/html
 # Copy project files
 COPY . .
 
+# Copy .env.example to .env
+RUN cp .env.example .env
+
 # Set Apache to use Laravel public directory
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 
 RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf
+
+# Fix permissions for database
+RUN chown -R www-data:www-data database && chmod -R 775 database
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
-
-# Copy .env.example to .env
-RUN cp .env.example .env
 
 # Laravel setup commands
 RUN php artisan key:generate \
